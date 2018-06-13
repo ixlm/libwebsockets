@@ -632,7 +632,9 @@ lws_callback_http_dummy(struct lws *wsi, enum lws_callback_reasons reason,
 			wsi->http.cgi->post_in_expected -= n;
 			if (!wsi->http.cgi->post_in_expected) {
 				lwsl_info("%s: expected POST in end: closing stdin\n", __func__);
-				__lws_close_free_wsi(args->stdwsi[LWS_STDIN], 0, "cgi stdin eof");
+				__lws_close_free_wsi(args->stdwsi[LWS_STDIN],
+					LWS_CLOSE_STATUS_NOSTATUS_CONTEXT_DESTROY,
+					"cgi stdin eof");
 				args->stdwsi[LWS_STDIN] = NULL;
 			}
 		}
